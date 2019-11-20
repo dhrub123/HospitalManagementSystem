@@ -1,5 +1,7 @@
 package com.hospital.frontdesk.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hospital.frontdesk.request.dto.SpecialistRequestDto;
-import com.hospital.frontdesk.response.SpecialistResponse;
+import com.hospital.frontdesk.response.Specialist;
 import com.hospital.frontdesk.service.GetSpecialistsProcessor;
 
 
 @RestController
-@RequestMapping("v0/hospital")
+@RequestMapping("${base.uri}")
 public class HospitalFrontDeskController {
 	
 	@Autowired
@@ -21,10 +23,10 @@ public class HospitalFrontDeskController {
 	
 	@RequestMapping(
 			method = RequestMethod.GET, 
-			value = "/retrieveSpecialistDetails", 
-			produces = MediaType.APPLICATION_JSON_VALUE
+			value = "${retrieve.specialist.uri}", 
+			produces = {MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE}
 	)
-	public SpecialistResponse retrieveSpecialistDetails(
+	public List<Specialist> retrieveSpecialistDetails(
 			@RequestParam(value = "specialist_type", required = true) String specialistType,
 			@RequestParam(value = "hospital_name", required = true) String hospitalName) {
 		

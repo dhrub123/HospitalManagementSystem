@@ -9,24 +9,46 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "type", "name", "availableday", "availableTime", "isAvailable", "hospitalId" })
 public class Specialist {
-	
+
+	public Specialist() {
+
+	}
+
+	public Specialist(String type, String name, String availableday, String availableTime, String isAvailable,
+			int hospitalId) {
+		this.type = type;
+		this.name = name;
+		this.availableday = availableday;
+		this.availableTime = availableTime;
+		this.isAvailable = isAvailable;
+		this.hospitalId = hospitalId;
+	}
+
 	@JsonProperty("type")
 	private String type;
-	
+
 	@JsonProperty("name")
 	private String name;
-	
+
 	@JsonProperty("availableday")
 	private String availableday;
-	
+
 	@JsonProperty("availableTime")
 	private String availableTime;
-	
+
 	@JsonProperty("isAvailable")
-	private boolean isAvailable;
-	
+	private String isAvailable;
+
 	@JsonProperty("hospitalId")
 	private int hospitalId;
+
+	public String getIsAvailable() {
+		return isAvailable;
+	}
+
+	public void setIsAvailable(String isAvailable) {
+		this.isAvailable = isAvailable;
+	}
 
 	public String getType() {
 		return type;
@@ -60,22 +82,12 @@ public class Specialist {
 		this.availableTime = availableTime;
 	}
 
-	public boolean isAvailable() {
-		return isAvailable;
-	}
-
-	public void setAvailable(boolean isAvailable) {
-		this.isAvailable = isAvailable;
-	}
-
 	public int getHospitalId() {
 		return hospitalId;
 	}
-	
+
 	public void setHospitalId(int hospitalId) {
 		this.hospitalId = hospitalId;
 	}
-	
-	
-	
+
 }

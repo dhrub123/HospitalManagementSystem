@@ -13,11 +13,11 @@ public class SpecialistRequestValidator {
 	public void validateRequestParameters(SpecialistRequestDto specialistRequestDto) {
 
 		if (StringUtils.isEmpty(specialistRequestDto.getHospitalName())) {
-			throw new HospitalCommonException(HospitalErrorCodes.INVALID_HOSPITAL_NAME);
+			throw new HospitalCommonException(HospitalErrorCodes.MISSING_HOSPITAL_NAME);
 		}
 
 		if (StringUtils.isEmpty(specialistRequestDto.getSpecialistType())) {
-			throw new HospitalCommonException(HospitalErrorCodes.INVALID_SPECIALIST_TYPE);
+			throw new HospitalCommonException(HospitalErrorCodes.MISSING_SPECIALIST_TYPE);
 		}
 
 	}

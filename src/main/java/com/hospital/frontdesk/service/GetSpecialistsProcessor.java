@@ -7,29 +7,28 @@ import org.springframework.stereotype.Component;
 
 import com.hospital.frontdesk.request.dto.SpecialistRequestDto;
 import com.hospital.frontdesk.response.Specialist;
-import com.hospital.frontdesk.response.SpecialistResponse;
 import com.hospital.frontdesk.validator.SpecialistRequestValidator;
+import com.hospital.frontdesk.response.SpecialistResponseProcessor;
 
 @Component
 public class GetSpecialistsProcessor {
-	
+
 	@Autowired
 	private SpecialistRequestValidator specialistRequestValidator;
-	
+
 	@Autowired
 	private GetSpecialistService getSpecialistService;
-	
-	public SpecialistResponse getSpecialists(SpecialistRequestDto specialistRequestDto) {
-		
+
+	@Autowired
+	private SpecialistResponseProcessor SpecialistResponseProcessor;
+
+	public List<Specialist> getSpecialists(SpecialistRequestDto specialistRequestDto) {
+
 		specialistRequestValidator.validateRequestParameters(specialistRequestDto);
 		List<Specialist> specs = getSpecialistService.getSpecialists(specialistRequestDto);
-		
-		//implement caching 
-		//implement reponse processing
-		SpecialistResponse response = new SpecialistResponse();
-		response.setSpecialists(specs);
-		return response;
-		
+
+		// implement reponse processing
+		return SpecialistResponseProcessor.buildResponse(specs);
 	}
 
 }
