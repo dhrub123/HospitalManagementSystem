@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hospital.frontdesk.request.dto.AppointmentRequestDto;
 import com.hospital.frontdesk.request.dto.SpecialistRequestDto;
+import com.hospital.frontdesk.response.Appointment;
 import com.hospital.frontdesk.response.Specialist;
 import com.hospital.frontdesk.service.GetSpecialistsProcessor;
 
@@ -31,5 +33,19 @@ public class HospitalFrontDeskController {
 			@RequestParam(value = "hospital_name", required = true) String hospitalName) {
 		
 			return getSpecialistsProcessor.getSpecialists(new SpecialistRequestDto(hospitalName, specialistType));
+	}
+	
+	@RequestMapping(
+			method = RequestMethod.GET, 
+			value = "${appointment.uri}", 
+			produces = {MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE}
+	)
+	public Appointment retrieveAppointmentDetails(
+			@RequestParam(value = "specialist_name", required = true) String specialistName,
+			@RequestParam(value = "hospital_name", required = true) String hospitalName,
+			@RequestParam(value = "patient_name", required = true) String patientName,
+			@RequestParam(value = "appointment_day", required = true) String appointmentDay) {
+		
+			return getSpecialistsProcessor.getAppointment(new AppointmentRequestDto(hospitalName, specialistName, patientName, appointmentDay));
 	}
 }

@@ -3,14 +3,20 @@ package com.hospital.frontdesk.exception;
 public enum HospitalErrorCodes {
 
 	MISSING_HOSPITAL_NAME("Hospital name is required", "hospitalName.missing", 400, ErrorSeverity.FAIL),
+	
+	MISSING_PATIENT_NAME("Patient name is required", "patientName.missing", 400, ErrorSeverity.FAIL),
 
+	MISSING_SPECIALIST_NAME("Specialist name is required", "specialistName.missing", 400, ErrorSeverity.FAIL),
+	
+	MISSING_APPOINTMENT_DAY("Appointment day is required", "appointmentDay.missing", 400, ErrorSeverity.FAIL),
+	
 	INVALID_HOSPITAL_NAME("Hospital name is invalid", "hospitalName.invalid", 400, ErrorSeverity.FAIL),
 
 	APPLICATION_ERROR("Hospital application error", "hospital.application.error", 400, ErrorSeverity.FAIL),
 
 	MISSING_SPECIALIST_TYPE("Specialist type is required", "specialistType.missing", 400, ErrorSeverity.FAIL),
 	
-	NO_SPECIALIST_FOUND("No specialist found", "specialist.not.found", 400, ErrorSeverity.FAIL);
+	NO_SPECIALIST_FOUND("No specialist found for selected hospital", "specialist.not.found", 400, ErrorSeverity.FAIL);
 
 	private String message;
 	private String informationCode;
