@@ -10,7 +10,7 @@ import com.hospital.frontdesk.exception.HospitalErrorCodes;
 import com.hospital.frontdesk.request.dto.AppointmentRequestDto;
 
 @Component
-public class SpecialistResponseProcessor {
+public class HospitalResponseProcessor {
 
 	public List<Specialist> buildResponse(List<Specialist> specs) {
 		if (specs.size() < 1) {
@@ -18,7 +18,6 @@ public class SpecialistResponseProcessor {
 		} else {
 			return specs;
 		}
-
 	}
 
 	public Appointment buildResponseForAppointment(Specialist spec, AppointmentRequestDto appointmentRequestDto) {
@@ -28,6 +27,13 @@ public class SpecialistResponseProcessor {
 			return new Appointment(spec.getName(), appointmentRequestDto.getPatientName(),
 					appointmentRequestDto.getAppointmentDay(), spec.getAvailableTime());
 		}
+	}
 
+	public String buildResponseForBedAvailability(BedResponse bedResponse) {
+		if (Integer.parseInt(bedResponse.getNumberOfAvailableBeds()) < 1) {
+			throw new HospitalCommonException(HospitalErrorCodes.BED_NOT_AVAILABLE);
+		} else {
+			return "Number of Beds Available is = " + bedResponse.getNumberOfAvailableBeds();
+		}
 	}
 }

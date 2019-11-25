@@ -2,24 +2,29 @@ package com.hospital.frontdesk.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import com.hospital.frontdesk.exception.HospitalCommonException;
 import com.hospital.frontdesk.exception.HospitalErrorCodes;
 import com.hospital.frontdesk.request.dto.AppointmentRequestDto;
 import com.hospital.frontdesk.request.dto.SpecialistRequestDto;
+import com.hospital.frontdesk.response.BedResponse;
+import com.hospital.frontdesk.response.Hospital;
 import com.hospital.frontdesk.response.Specialist;
 import com.hospital.frontdesk.util.HospitalFrontdeskUtil;
 
 @Component
-public class SpecialistLookup {
+public class HospitalDataLookup {
 
 	@Autowired
 	SpecialistData specialistData;
+	
+	@Autowired
+	HospitalData hospitalData;
 
 	@Value("${hospital.code.fortis}")
 	private int hospitalCodeFortis;
@@ -43,7 +48,6 @@ public class SpecialistLookup {
 		}
 	}
 
-	@Cacheable("specialist")
 	public Specialist getSpecialistByHospitalNameAndSpecialistNameAndAppointmentDay(
 			AppointmentRequestDto appointmentRequestDto) {
 
@@ -59,6 +63,17 @@ public class SpecialistLookup {
 			throw he;
 		}
 	}
+	
+	public BedResponse getNumberOfAvailableBeds(String hospitalName) {
+		BedResponse br = new BedResponse();
+		try {
+			lookupHospitalIdByName(hospitalName);
+			br.setNumberOfAvailableBeds(lookupNumberOfAvailableBedsByHospitalName(hospitalName));
+		} catch (HospitalCommonException he) {
+			throw he;
+		}
+		return br;
+	}
 
 	public int lookupHospitalIdByName(String hospitalName) {
 		if (hospitalName.equalsIgnoreCase("fortis")) {
@@ -71,6 +86,20 @@ public class SpecialistLookup {
 
 	}
 
+	public String lookupNumberOfAvailableBedsByHospitalName(String hospitalName) {
+		String numberOfBeds = "0";
+		List<Hospital> hospitals = hospitalData.createDummyRecords();
+		if(Objects.isNull(hospitals) || hospitals.size() < 1) {
+			throw new HospitalCommonException(HospitalErrorCodes.DATA_NOT_AVAILABLE_FOR_HOSPITAL);
+		}
+		for (Hospital hospital : hospitals) {
+			if (hospital.getHospitalName().equalsIgnoreCase(hospitalName)) {
+				numberOfBeds = hospital.getNumberOfBedsAvailable();
+			}
+		}
+		return numberOfBeds;
+	}
+	
 	public List<Specialist> lookupSpecialistByHospitalIdAndSpecialistType(int hospitalId, String specialistType) {
 		List<Specialist> finalSpecs = new ArrayList<Specialist>();
 		List<Specialist> specialists = specialistData.createDummyRecords();

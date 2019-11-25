@@ -13,7 +13,7 @@ import com.hospital.frontdesk.request.dto.AppointmentRequestDto;
 import com.hospital.frontdesk.request.dto.SpecialistRequestDto;
 import com.hospital.frontdesk.response.Appointment;
 import com.hospital.frontdesk.response.Specialist;
-import com.hospital.frontdesk.service.GetSpecialistsProcessor;
+import com.hospital.frontdesk.service.ServiceProcessor;
 
 
 @RestController
@@ -21,7 +21,7 @@ import com.hospital.frontdesk.service.GetSpecialistsProcessor;
 public class HospitalFrontDeskController {
 	
 	@Autowired
-	private GetSpecialistsProcessor getSpecialistsProcessor;
+	private ServiceProcessor serviceProcessor;
 	
 	@RequestMapping(
 			method = RequestMethod.GET, 
@@ -32,7 +32,7 @@ public class HospitalFrontDeskController {
 			@RequestParam(value = "specialist_type", required = true) String specialistType,
 			@RequestParam(value = "hospital_name", required = true) String hospitalName) {
 		
-			return getSpecialistsProcessor.getSpecialists(new SpecialistRequestDto(hospitalName, specialistType));
+			return serviceProcessor.getSpecialists(new SpecialistRequestDto(hospitalName, specialistType));
 	}
 	
 	@RequestMapping(
@@ -46,6 +46,16 @@ public class HospitalFrontDeskController {
 			@RequestParam(value = "patient_name", required = true) String patientName,
 			@RequestParam(value = "appointment_day", required = true) String appointmentDay) {
 		
-			return getSpecialistsProcessor.getAppointment(new AppointmentRequestDto(hospitalName, specialistName, patientName, appointmentDay));
+			return serviceProcessor.getAppointment(new AppointmentRequestDto(hospitalName, specialistName, patientName, appointmentDay));
+	}
+	
+	@RequestMapping(
+			method = RequestMethod.GET, 
+			value = "${bed.details.uri}", 
+			produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	public String retrieveNumberOfAvailableBeds(
+			@RequestParam(value = "hospital_name", required = true) String hospitalName) {
+
+			return serviceProcessor.getNumberOfAvailableBeds(hospitalName);
 	}
 }
