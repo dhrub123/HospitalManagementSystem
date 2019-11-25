@@ -16,11 +16,17 @@ public enum HospitalErrorCodes {
 
 	MISSING_SPECIALIST_TYPE("Specialist type is required", "specialistType.missing", 400, ErrorSeverity.FAIL),
 	
+	MISSING_PORT("Port is required", "port.missing", 400, ErrorSeverity.FAIL),
+	
+	MISSING_ENV("Env is required", "environment.missing", 400, ErrorSeverity.FAIL),
+	
 	NO_SPECIALIST_FOUND("No specialist found for selected hospital", "specialist.not.found", 400, ErrorSeverity.FAIL),
 	
 	BED_NOT_AVAILABLE("No beds are available in selected hospital", "bed.not.available", 400, ErrorSeverity.FAIL),
 	
-	DATA_NOT_AVAILABLE_FOR_HOSPITAL("data not available for selected hospital", "data.not.available", 400, ErrorSeverity.FAIL);
+	DATA_NOT_AVAILABLE_FOR_HOSPITAL("data not available for selected hospital", "data.not.available", 400, ErrorSeverity.FAIL),
+	
+	HOSPITAL_SERVICE_FAILURE("Hospital service call failure", "hospital.service.call.failure", 400, ErrorSeverity.FAIL);
 
 	private String message;
 	private String informationCode;

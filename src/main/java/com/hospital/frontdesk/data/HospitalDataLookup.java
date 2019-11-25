@@ -21,10 +21,10 @@ import com.hospital.frontdesk.util.HospitalFrontdeskUtil;
 public class HospitalDataLookup {
 
 	@Autowired
-	SpecialistData specialistData;
+	private SpecialistData specialistData;
 	
 	@Autowired
-	HospitalData hospitalData;
+	private HospitalData hospitalData;
 
 	@Value("${hospital.code.fortis}")
 	private int hospitalCodeFortis;
