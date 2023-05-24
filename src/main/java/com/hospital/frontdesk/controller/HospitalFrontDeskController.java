@@ -1,14 +1,14 @@
 package com.hospital.frontdesk.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.hospital.frontdesk.response.ProviderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.hospital.frontdesk.request.dto.ApiRequestDto;
 import com.hospital.frontdesk.request.dto.AppointmentRequestDto;
@@ -73,5 +73,19 @@ public class HospitalFrontDeskController {
 			
 			return serviceProcessor.callRestApi(new ApiRequestDto(hospitalName, specialistType, port, env));
 			
+	}
+
+	@GetMapping(
+			value = "/providers",
+			produces = {MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_JSON_VALUE}
+	)
+	public ProviderResponse getProviderDetails(){
+		System.out.println("Inside Get Providers");
+		Map<String,String> providerMap = new HashMap<String,String>();
+		providerMap.put("Carol Bling", "ORTHOPAEDICS");
+		providerMap.put("John Doe", "CARDIOLOGY");
+		providerMap.put("Kutum Singh", "PAEDIATRICS");
+		providerMap.put("Bhutum Singh", "ENT");
+		return new ProviderResponse(providerMap);
 	}
 }
