@@ -2,6 +2,10 @@ package com.hospital.frontdesk.service;
 
 import java.util.List;
 
+import com.hospital.frontdesk.dao.entities.Hospital;
+import com.hospital.frontdesk.dao.mapper.HospitalMapper;
+import com.hospital.frontdesk.dao.repositories.HospitalRepository;
+import com.hospital.frontdesk.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -12,10 +16,6 @@ import com.hospital.frontdesk.exception.HospitalErrorCodes;
 import com.hospital.frontdesk.request.dto.ApiRequestDto;
 import com.hospital.frontdesk.request.dto.AppointmentRequestDto;
 import com.hospital.frontdesk.request.dto.SpecialistRequestDto;
-import com.hospital.frontdesk.response.Appointment;
-import com.hospital.frontdesk.response.BedResponse;
-import com.hospital.frontdesk.response.HospitalResponseProcessor;
-import com.hospital.frontdesk.response.Specialist;
 import com.hospital.frontdesk.validator.ApiRequestValidator;
 import com.hospital.frontdesk.validator.AppointmentRequestValidator;
 import com.hospital.frontdesk.validator.BedRequestValidator;
@@ -41,6 +41,9 @@ public class ServiceProcessor {
 
 	@Autowired
 	private HospitalResponseProcessor hospitalResponseProcessor;
+
+	@Autowired
+	HospitalRepository hospitalRepository;
 
 	public List<Specialist> getSpecialists(SpecialistRequestDto specialistRequestDto) {
 
@@ -74,6 +77,11 @@ public class ServiceProcessor {
 		}
 		return apiResponse;
 
+	}
+
+	public HospitalResponse getHospitalByHospitalCode(int hospitalCode){
+		Hospital hospital = hospitalRepository.findByHospitalCode(hospitalCode);
+		return HospitalMapper.toResponse(hospital);
 	}
 
 }

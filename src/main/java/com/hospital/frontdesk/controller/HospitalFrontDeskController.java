@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hospital.frontdesk.response.HospitalResponse;
 import com.hospital.frontdesk.response.ProviderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -80,6 +81,7 @@ public class HospitalFrontDeskController {
 			produces = {MediaType.APPLICATION_JSON_VALUE}
 	)
 	public ProviderResponse getProviderDetails(){
+		serviceProcessor.getHospitalByHospitalCode(948);
 		System.out.println("Inside Get Providers");
 		Map<String,String> providerMap = new HashMap<String,String>();
 		providerMap.put("Carol Bling", "ORTHOPAEDICS");
@@ -87,5 +89,15 @@ public class HospitalFrontDeskController {
 		providerMap.put("Kutum Singh", "PAEDIATRICS");
 		providerMap.put("Bhutum Singh", "ENT");
 		return new ProviderResponse(providerMap);
+	}
+
+	@GetMapping(
+			value = "/hospitalByCode",
+			produces = {MediaType.APPLICATION_JSON_VALUE}
+	)
+	public HospitalResponse getHospitalDetailsByHospitalCode(
+			@RequestParam(value = "code", required = true) int code
+	){
+		return serviceProcessor.getHospitalByHospitalCode(code);
 	}
 }
