@@ -77,7 +77,7 @@ public class HospitalFrontDeskController {
 
 	@GetMapping(
 			value = "/providers",
-			produces = {MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_JSON_VALUE}
+			produces = {MediaType.APPLICATION_JSON_VALUE}
 	)
 	public ProviderResponse getProviderDetails(){
 		System.out.println("Inside Get Providers");
